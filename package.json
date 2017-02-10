@@ -1,0 +1,41 @@
+{
+  "name": "toki-rabbit",
+  "version": "0.0.1",
+  "private": false,
+  "description": "Plugin",
+  "homepage": "https://github.com/xogroup/toki-rabbit#readme",
+  "main": "lib/implementation.js",
+  "bugs": {
+    "url": "https://github.com/xogroup/toki-rabbit/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xogroup/toki-rabbit.git"
+  },
+  "keywords": [
+    "toki",
+    "messaging",
+    "bunnybus",
+    "rabbitmq",
+    "amqplib"
+  ],
+  "scripts": {
+    "test": "lab -t 100",
+    "updateTOC": "doctoc API.md"
+  },
+  "engines": {
+    "node": ">=6.x.x"
+  },
+  "author": "XO Group Team",
+  "license": "BSD-3-Clause",
+  "devDependencies": {
+    "code": "4.x.x",
+    "doctoc": "1.2.x",
+    "eslint": "3.10.x",
+    "eslint-plugin-xogroup": "1.x.x",
+    "lab": "12.x.x"
+  },
+  "dependencies": {
+    "bunnybus": "1.x.x"
+  }
+}
