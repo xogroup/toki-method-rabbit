@@ -1,5 +1,5 @@
 {
-  "name": "toki-rabbit",
+  "name": "@toki/toki-rabbit",
   "version": "0.0.1",
   "private": false,
   "description": "Plugin",
