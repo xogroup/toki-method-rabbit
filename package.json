@@ -1,16 +1,16 @@
 {
-  "name": "toki-rabbit",
+  "name": "toki-method-rabbit",
   "version": "0.0.3",
   "private": false,
   "description": "Plugin",
-  "homepage": "https://github.com/xogroup/toki-rabbit#readme",
+  "homepage": "https://github.com/xogroup/toki-method-rabbit#readme",
   "main": "lib/implementation.js",
   "bugs": {
-    "url": "https://github.com/xogroup/toki-rabbit/issues"
+    "url": "https://github.com/xogroup/toki-method-rabbit/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/xogroup/toki-rabbit.git"
+    "url": "git+https://github.com/xogroup/toki-method-rabbit.git"
   },
   "keywords": [
     "toki",
