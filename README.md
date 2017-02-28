@@ -15,7 +15,7 @@ Lead Maintainer: [Wes Tyler](https://github.com/westyler)
 `toki-method-rabbit` is meant to be used as an *action* step in a Toki rules-engine configuration definition.
 This method is intended for publishing messages to a RabbitMQ message bus in the course of a Toki process lifecycle.
  Like other `toki-method-*` modules, `toki-method-rabbit` is implemented through the Toki rule configuration. 
- There are 5 required configuration properties for this method:
+ There are 4 required configuration properties for this method:
 
   1. `"name"`
 
@@ -42,12 +42,6 @@ This method is intended for publishing messages to a RabbitMQ message bus in the
     {{object}}
 
     The mapping schema used to create the Rabbit message being published to the exchange.
-
-  5. `"errorConfiguration"`
-
-    {{object}}
-
-    The mapping schema used to create a Rabbit message in the case of an error in the Toki process lifecycle.
 
 <!-- Customize this if needed -->
 Examples can be found in [the sample Toki config](test/sample-config.json).

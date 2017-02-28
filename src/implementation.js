@@ -16,10 +16,6 @@ module.exports = function () {
         throw new Error('toki-method-rabbit action configuration must include message mapping configs');
     }
 
-    if (!self.config.errorConfiguration) {
-        throw new Error('toki-method-rabbit action configuration must include error message mapping configs');
-    }
-
     const bunnyBus = new BunnyBus(self.config.rabbitConfiguration);
     const rabbitMessage =  HydrateTemplate(self.config.createConfiguration, self.contexts);
 

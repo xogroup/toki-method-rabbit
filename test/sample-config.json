@@ -4,26 +4,22 @@
   "description": "Do some things, then emit to RabbitMQ",
   "actions": [
     {
-      "name": "identities",
-      "type": "toki-method-identities"
-    },
-    {
-      "name": "createConversation",
+      "name": "action1",
       "type": "toki-method-http",
       "createConfiguration": {},
       "assembleConfiguration": [
         {
-          "writeToKey": "conversation",
-          "webhookUri": "uri/path/${conversation.conversationId}",
+          "writeToKey": "doc1",
+          "webhookUri": "uri/path/{{=it.doc1.id}}",
           "idKey": "conversationId",
           "httpAction": "GET"
         },
         {
-          "writeToKey" : "message",
+          "writeToKey" : "doc2",
           "webhookUri" : "uri/path/message",
           "idKey" : "messageId",
           "httpAction" : "POST",
-          "requestBody" : "{ \"ids\" : [\"${message.messageId}\"] }"
+          "requestBody" : "{ \"ids\" : [\"{{=it.doc2.id}}\"] }"
         }
       ]
     },
@@ -37,49 +33,20 @@
         "vhost": "guest"
       },
       "createConfiguration": {
-        "routeKey": "toki.request-processed",
-        "identities": {
-          "uri": "${identities.identityUri}",
-          "httpAction": "POST",
-          "payload": {
-            "id": "${identities.ids}"
-          },
-          "eventName": "${identities.events}"
-        },
+        "event": "toki.request-processed",
         "message": {
-          "uri": "${createConversation.message.uri}",
+          "uri": "{{=it.action1.output.doc1.webhookUri}}",
           "httpAction": "POST",
           "payload": {
-            "id": "${createConversation.message.ids}"
-          },
-          "eventName": "${createConversation.message.events}"
-        },
-        "conversation": {
-          "uri": "${createConversation.conversation.uri}",
-          "httpAction": "GET",
-          "eventName": "${createConversation.conversation.events}"
-        }
-      },
-      "errorConfiguration": {
-        "routeKey": "toki.request-errored",
-        "errors": [],
-        "identities": {
-          "uri": "${identities.identityUri}",
-          "httpAction": "POST",
-          "payload": {
-            "id": "${identities.ids}"
-          }
-        },
-        "message": {
-          "uri": "${createConversation.message.uri}",
-          "httpAction": "POST",
-          "payload": {
-            "id": "${createConversation.message.ids}"
+            "id": "{{=it.action1.output.doc1.id}}"
           }
         },
         "conversation": {
-          "uri": "${createConversation.conversation.uri}",
-          "httpAction": "DELETE"
+          "uri": "{{=it.action1.output.doc2.webhookUri}}",
+          "httpAction": "POST",
+          "payload": {
+            "id": "{{=it.action1.output.doc2.requestBody}}"
+          }
         }
       }
     }

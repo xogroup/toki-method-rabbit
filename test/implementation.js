@@ -33,8 +33,7 @@ describe('toki-method-rabbit', () => {
                 },
                 createConfiguration: {
                     event: 'toki.request-processed'
-                },
-                errorConfiguration: {}
+                }
             }
         };
 
@@ -67,19 +66,6 @@ describe('toki-method-rabbit', () => {
         done();
     });
 
-    it('should error on missing errorConfiguration', (done) => {
-
-        const context = {
-            config: {
-                rabbitConfiguration: {},
-                createConfiguration: {}
-            }
-        };
-
-        expect(TokiRabbit.bind(context)).to.throw(Error, 'toki-method-rabbit action configuration must include error message mapping configs');
-        done();
-    });
-
     it('should use the createConfiguration to build the rabbit message', () => {
 
         const context = {
@@ -98,8 +84,7 @@ describe('toki-method-rabbit', () => {
                         uri       : '{{=it.action2.output.message.uri}}',
                         httpAction: 'POST'
                     }
-                },
-                errorConfiguration: {}
+                }
             },
             contexts: {
                 action1: {
