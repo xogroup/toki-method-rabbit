@@ -4,15 +4,139 @@ const expect = require('code').expect;   // assertion library
 const Lab = require('lab');
 const lab = exports.lab = Lab.script();
 const describe = lab.describe;
+const before = lab.before;
 const it = lab.it;
 
-const Foo = require('../src/implementation');
+const BunnyBus = require('bunnybus');
+let bunnyBus;
 
-describe('Foo', () => {
+const TokiRabbit = require('../src/implementation');
 
-    it('checks to make sure Foo is an object', (done) => {
+describe('toki-method-rabbit', () => {
 
-        expect(Foo).to.be.a.object();
+    before((done) => {
+
+        bunnyBus = new BunnyBus({
+            user    : 'notGuest',
+            password: 'notGuest'
+        });
         done();
+    });
+
+    it('should configure BunnyBus via action configuration', () => {
+
+        const context = {
+            config: {
+                rabbitConfiguration: {
+                    user    : 'guest',
+                    password: 'guest'
+                },
+                createConfiguration: {
+                    event: 'toki.request-processed'
+                },
+                errorConfiguration: {}
+            }
+        };
+
+        return TokiRabbit.call(context)
+            .then(() => {
+
+                expect(bunnyBus.connectionString).to.equal('amqp://guest:guest@127.0.0.1:5672/%2f?heartbeat=2000');
+            });
+    });
+
+    it('should error on missing BunnyBus action configuration', (done) => {
+
+        const context = {
+            config: {}
+        };
+
+        expect(TokiRabbit.bind(context)).to.throw(Error, 'toki-method-rabbit action configuration must include RabbitMQ configs');
+        done();
+    });
+
+    it('should error on missing createConfiguration', (done) => {
+
+        const context = {
+            config: {
+                rabbitConfiguration: {}
+            }
+        };
+
+        expect(TokiRabbit.bind(context)).to.throw(Error, 'toki-method-rabbit action configuration must include message mapping configs');
+        done();
+    });
+
+    it('should error on missing errorConfiguration', (done) => {
+
+        const context = {
+            config: {
+                rabbitConfiguration: {},
+                createConfiguration: {}
+            }
+        };
+
+        expect(TokiRabbit.bind(context)).to.throw(Error, 'toki-method-rabbit action configuration must include error message mapping configs');
+        done();
+    });
+
+    it('should use the createConfiguration to build the rabbit message', () => {
+
+        const context = {
+            config: {
+                rabbitConfiguration: {
+                    user: 'guest',
+                    password: 'guest'
+                },
+                createConfiguration: {
+                    event  : 'toki.request-processed',
+                    action1: {
+                        uri       : '{{=it.action1.output.uri}}',
+                        httpAction: 'POST'
+                    },
+                    message: {
+                        uri       : '{{=it.action2.output.message.uri}}',
+                        httpAction: 'POST'
+                    }
+                },
+                errorConfiguration: {}
+            },
+            contexts: {
+                action1: {
+                    server: {},
+                    config: {},
+                    contexts: {},
+                    output: {
+                        uri: 'endpointA/12345'
+                    }
+                },
+                action2: {
+                    server: {},
+                    config: {},
+                    contexts: {},
+                    output: {
+                        message: {
+                            uri: 'message/67890'
+                        }
+                    }
+                }
+            }
+        };
+
+        return TokiRabbit.call(context)
+            .then((message) => {
+
+                expect(message).to.equal({
+                    event  : 'toki.request-processed',
+                    action1: {
+                        uri       : 'endpointA/12345',
+                        httpAction: 'POST'
+                    },
+                    message: {
+                        uri       : 'message/67890',
+                        httpAction: 'POST'
+                    }
+                });
+            });
     });
 });

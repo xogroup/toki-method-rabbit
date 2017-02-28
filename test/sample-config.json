@@ -1,0 +1,87 @@
+{
+  "path": "/tokiEndpoint",
+  "tags": [],
+  "description": "Do some things, then emit to RabbitMQ",
+  "actions": [
+    {
+      "name": "identities",
+      "type": "toki-method-identities"
+    },
+    {
+      "name": "createConversation",
+      "type": "toki-method-http",
+      "createConfiguration": {},
+      "assembleConfiguration": [
+        {
+          "writeToKey": "conversation",
+          "webhookUri": "uri/path/${conversation.conversationId}",
+          "idKey": "conversationId",
+          "httpAction": "GET"
+        },
+        {
+          "writeToKey" : "message",
+          "webhookUri" : "uri/path/message",
+          "idKey" : "messageId",
+          "httpAction" : "POST",
+          "requestBody" : "{ \"ids\" : [\"${message.messageId}\"] }"
+        }
+      ]
+    },
+    {
+      "name": "Rabbit",
+      "type": "toki-method-rabbit",
+      "rabbitConfiguration": {
+        "server": "rabbitbox",
+        "user": "guest",
+        "password": "guest",
+        "vhost": "guest"
+      },
+      "createConfiguration": {
+        "routeKey": "toki.request-processed",
+        "identities": {
+          "uri": "${identities.identityUri}",
+          "httpAction": "POST",
+          "payload": {
+            "id": "${identities.ids}"
+          },
+          "eventName": "${identities.events}"
+        },
+        "message": {
+          "uri": "${createConversation.message.uri}",
+          "httpAction": "POST",
+          "payload": {
+            "id": "${createConversation.message.ids}"
+          },
+          "eventName": "${createConversation.message.events}"
+        },
+        "conversation": {
+          "uri": "${createConversation.conversation.uri}",
+          "httpAction": "GET",
+          "eventName": "${createConversation.conversation.events}"
+        }
+      },
+      "errorConfiguration": {
+        "routeKey": "toki.request-errored",
+        "errors": [],
+        "identities": {
+          "uri": "${identities.identityUri}",
+          "httpAction": "POST",
+          "payload": {
+            "id": "${identities.ids}"
+          }
+        },
+        "message": {
+          "uri": "${createConversation.message.uri}",
+          "httpAction": "POST",
+          "payload": {
+            "id": "${createConversation.message.ids}"
+          }
+        },
+        "conversation": {
+          "uri": "${createConversation.conversation.uri}",
+          "httpAction": "DELETE"
+        }
+      }
+    }
+  ]
+}

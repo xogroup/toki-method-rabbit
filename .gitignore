@@ -38,3 +38,6 @@ npm-debug.log
 
 # the archived version of the project for Gymfuy
 *.tgz
+
+# Test coverage report
+test/test.html
