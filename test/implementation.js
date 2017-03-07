@@ -124,4 +124,59 @@ describe('toki-method-rabbit', () => {
                 });
             });
     });
+
+    it('should emit the rabbit message with the expected routeKey', (done) => {
+
+        bunnyBus.subscribe('toki', {
+            'toki.test-request-processed' : (message, ack) => {
+
+                ack();
+                done();
+            }
+        })
+            .then(() => {
+
+                const context = {
+                    config: {
+                        rabbitConfiguration: {
+                            user: 'guest',
+                            password: 'guest'
+                        },
+                        createConfiguration: {
+                            event  : 'toki.test-request-processed',
+                            action1: {
+                                uri       : '{{=it.action1.output.uri}}',
+                                httpAction: 'POST'
+                            },
+                            message: {
+                                uri       : '{{=it.action2.output.message.uri}}',
+                                httpAction: 'POST'
+                            }
+                        }
+                    },
+                    contexts: {
+                        action1: {
+                            server: {},
+                            config: {},
+                            contexts: {},
+                            output: {
+                                uri: 'endpointA/12345'
+                            }
+                        },
+                        action2: {
+                            server: {},
+                            config: {},
+                            contexts: {},
+                            output: {
+                                message: {
+                                    uri: 'message/67890'
+                                }
+                            }
+                        }
+                    }
+                };
+
+                TokiRabbit.call(context);
+            });
+    });
 });
