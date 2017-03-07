@@ -36,7 +36,7 @@ This method is intended for publishing messages to a RabbitMQ message bus in the
 
     The type of action to be taken by the Toki rules engine. In this case the value should always be `"toki-method-rabbit"`
 
-  3. `"rabbitCongifuration"`
+  3. `"rabbitConfiguration"`
 
     {{object}}
 
@@ -48,7 +48,7 @@ This method is intended for publishing messages to a RabbitMQ message bus in the
 
     {{object}}
 
-    The mapping schema used to create the Rabbit message being published to the exchange.
+    The mapping schema used to create the Rabbit message being published to the exchange. toki-method-rabbit leverages [toki-templater](https://github.com/xogroup/toki-templater) to support dynamic templating in your createConfiguration mappings.
 
 <!-- Customize this if needed -->
 Examples can be found in [the sample Toki config](test/sample-config.json).
@@ -65,8 +65,5 @@ npm install && npm test
 ```
 
 Please note that the tests make use of Docker and require the `rabbitmq:3-management` Docker image. Once you have Docker installed, if tests fail then follow these steps:
-  1. Ensure that you have the rabbitmq host mappings in your `/env/hosts` file:
-    ```
-    127.0.0.1 rabbitmq
-    ```
-  2. If your tests are able to connect to the Docker image, but you have a `Socket closed abruptly during opening handshake` error, your Docker image may be initializing too slowly. Try increasing the `sleep` delay in the [wait-on-resources file](http://github.com/xogroup/toki/blob/master/docker/wait-on-resources.sh).
+  1. Ensure that you have the rabbitmq host mappings in your `/env/hosts` file: `127.0.0.1 rabbitmq`
+  2. If your tests are able to connect to the Docker image, but you have a `Socket closed abruptly during opening handshake` error, your Docker image may be initializing too slowly. Try increasing the `sleep` delay in the [wait-on-resources file](http://github.com/xogroup/toki-method-rabbit/blob/master/docker/wait-on-resource.sh).
