@@ -1,7 +1,7 @@
 'use strict';
 
 const BunnyBus = require('bunnybus');
-const HydrateTemplate = require('./hydrateTemplate');
+const HydrateTemplate = require('toki-templater');
 
 //export result here
 module.exports = function () {
@@ -17,9 +17,17 @@ module.exports = function () {
     }
 
     const bunnyBus = new BunnyBus(self.config.rabbitConfiguration);
-    const rabbitMessage =  HydrateTemplate(self.config.createConfiguration, self.contexts);
+    let rabbitMessage;
 
-    return bunnyBus.publish(rabbitMessage)
+    return HydrateTemplate(self.config.createConfiguration, null, {
+        context: self.contexts
+    })
+        .then((hydratedConfig) => {
+
+            rabbitMessage = hydratedConfig;
+
+            return bunnyBus.publish(rabbitMessage);
+        })
         .then(() => {
 
             return rabbitMessage;
