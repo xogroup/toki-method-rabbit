@@ -4,7 +4,7 @@
   "private": false,
   "description": "Plugin",
   "homepage": "https://github.com/xogroup/toki-method-rabbit#readme",
-  "main": "lib/implementation.js",
+  "main": "src/implementation.js",
   "bugs": {
     "url": "https://github.com/xogroup/toki-method-rabbit/issues"
   },
