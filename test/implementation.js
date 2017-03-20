@@ -31,7 +31,7 @@ describe('toki-method-rabbit', () => {
                     user    : 'guest',
                     password: 'guest'
                 },
-                createConfiguration: {
+                inputConfiguration: {
                     event: 'toki.request-processed'
                 }
             }
@@ -54,7 +54,7 @@ describe('toki-method-rabbit', () => {
         done();
     });
 
-    it('should error on missing createConfiguration', (done) => {
+    it('should error on missing inputConfiguration', (done) => {
 
         const context = {
             config: {
@@ -66,7 +66,7 @@ describe('toki-method-rabbit', () => {
         done();
     });
 
-    it('should use the createConfiguration to build the rabbit message', () => {
+    it('should use the inputConfiguration to build the rabbit message', () => {
 
         const context = {
             config: {
@@ -74,7 +74,7 @@ describe('toki-method-rabbit', () => {
                     user: 'guest',
                     password: 'guest'
                 },
-                createConfiguration: {
+                inputConfiguration: {
                     event  : 'toki.request-processed',
                     action1: {
                         uri       : '{{=it.action1.output.uri}}',
@@ -142,7 +142,7 @@ describe('toki-method-rabbit', () => {
                             user: 'guest',
                             password: 'guest'
                         },
-                        createConfiguration: {
+                        inputConfiguration: {
                             event  : 'toki.test-request-processed',
                             action1: {
                                 uri       : '{{=it.action1.output.uri}}',

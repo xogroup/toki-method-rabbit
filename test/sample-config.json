@@ -6,8 +6,8 @@
     {
       "name": "action1",
       "type": "toki-method-http",
-      "createConfiguration": {},
-      "assembleConfiguration": [
+      "inputConfiguration": {},
+      "outputConfiguration": [
         {
           "writeToKey": "doc1",
           "webhookUri": "uri/path/{{=it.doc1.id}}",
@@ -32,7 +32,7 @@
         "password": "guest",
         "vhost": "guest"
       },
-      "createConfiguration": {
+      "inputConfiguration": {
         "event": "toki.request-processed",
         "message": {
           "uri": "{{=it.action1.output.doc1.webhookUri}}",

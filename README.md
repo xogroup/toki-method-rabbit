@@ -44,11 +44,11 @@ This method is intended for publishing messages to a RabbitMQ message bus in the
 
     See the [BunnyBus configurations](https://github.com/xogroup/bunnybus/blob/master/API.md#config) for more information.
 
-  4. `"createConfiguration"`
+  4. `"inputConfiguration"`
 
     {{object}}
 
-    The mapping schema used to create the Rabbit message being published to the exchange. toki-method-rabbit leverages [toki-templater](https://github.com/xogroup/toki-templater) to support dynamic templating in your createConfiguration mappings.
+    The mapping schema used to create the Rabbit message being published to the exchange. toki-method-rabbit leverages [toki-templater](https://github.com/xogroup/toki-templater) to support dynamic templating in your inputConfiguration mappings.
 
 <!-- Customize this if needed -->
 Examples can be found in [the sample Toki config](test/sample-config.json).

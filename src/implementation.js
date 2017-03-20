@@ -12,14 +12,14 @@ module.exports = function () {
         throw new Error('toki-method-rabbit action configuration must include RabbitMQ configs');
     }
 
-    if (!self.config.createConfiguration) {
+    if (!self.config.inputConfiguration) {
         throw new Error('toki-method-rabbit action configuration must include message mapping configs');
     }
 
     const bunnyBus = new BunnyBus(self.config.rabbitConfiguration);
     let rabbitMessage;
 
-    return HydrateTemplate(self.config.createConfiguration, null, {
+    return HydrateTemplate(self.config.inputConfiguration, null, {
         context: self.contexts
     })
         .then((hydratedConfig) => {
