@@ -10,7 +10,7 @@
       "outputConfiguration": [
         {
           "writeToKey": "doc1",
-          "webhookUri": "uri/path/{{=it.doc1.id}}",
+          "webhookUri": "uri/path/{{doc1.id}}",
           "idKey": "conversationId",
           "httpAction": "GET"
         },
@@ -19,7 +19,7 @@
           "webhookUri" : "uri/path/message",
           "idKey" : "messageId",
           "httpAction" : "POST",
-          "requestBody" : "{ \"ids\" : [\"{{=it.doc2.id}}\"] }"
+          "requestBody" : "{ \"ids\" : [\"{{doc2.id}}\"] }"
         }
       ]
     },
@@ -35,17 +35,17 @@
       "inputConfiguration": {
         "event": "toki.request-processed",
         "message": {
-          "uri": "{{=it.action1.output.doc1.webhookUri}}",
+          "uri": "{{action1.output.doc1.webhookUri}}",
           "httpAction": "POST",
           "payload": {
-            "id": "{{=it.action1.output.doc1.id}}"
+            "id": "{{action1.output.doc1.id}}"
           }
         },
         "conversation": {
-          "uri": "{{=it.action1.output.doc2.webhookUri}}",
+          "uri": "{{action1.output.doc2.webhookUri}}",
           "httpAction": "POST",
           "payload": {
-            "id": "{{=it.action1.output.doc2.requestBody}}"
+            "id": "{{action1.output.doc2.requestBody}}"
           }
         }
       }

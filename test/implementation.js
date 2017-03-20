@@ -77,11 +77,11 @@ describe('toki-method-rabbit', () => {
                 inputConfiguration: {
                     event  : 'toki.request-processed',
                     action1: {
-                        uri       : '{{=it.action1.output.uri}}',
+                        uri       : '{{action1.output.uri}}',
                         httpAction: 'POST'
                     },
                     message: {
-                        uri       : '{{=it.action2.output.message.uri}}',
+                        uri       : '{{action2.output.message.uri}}',
                         httpAction: 'POST'
                     }
                 }
@@ -145,11 +145,11 @@ describe('toki-method-rabbit', () => {
                         inputConfiguration: {
                             event  : 'toki.test-request-processed',
                             action1: {
-                                uri       : '{{=it.action1.output.uri}}',
+                                uri       : '{{action1.output.uri}}',
                                 httpAction: 'POST'
                             },
                             message: {
-                                uri       : '{{=it.action2.output.message.uri}}',
+                                uri       : '{{action2.output.message.uri}}',
                                 httpAction: 'POST'
                             }
                         }

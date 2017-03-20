@@ -40,6 +40,6 @@
   },
   "dependencies": {
     "bunnybus": "2.x.x",
-    "toki-templater": "0.1.x"
+    "toki-templater": "1.x.x"
   }
 }
