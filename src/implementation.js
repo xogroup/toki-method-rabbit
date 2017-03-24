@@ -20,7 +20,7 @@ module.exports = function () {
     let rabbitMessage;
 
     return HydrateTemplate(self.config.inputConfiguration, null, {
-        context: self.contexts
+        hydrationContext: self.contexts
     })
         .then((hydratedConfig) => {
 
