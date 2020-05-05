@@ -24,7 +24,9 @@
     "test-unit": "lab -t 100",
     "start-docker": "docker run -d --name=rabbitmq -p 5671:5671 -p 15672:15672 -p 5672:5672 rabbitmq:3-management",
     "stop-docker": "docker rm -f rabbitmq",
-    "updateTOC": "doctoc API.md"
+    "updateTOC": "doctoc API.md",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "engines": {
     "node": ">=6.x.x"
@@ -40,6 +42,8 @@
   },
   "dependencies": {
     "bunnybus": "2.x.x",
-    "toki-templater": "2.x.x"
-  }
+    "toki-templater": "2.x.x",
+    "snyk": "^1.317.0"
+  },
+  "snyk": true
 }
